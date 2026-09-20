@@ -146,6 +146,82 @@ router.put('/categories/:id', async (req, res) => {
 });
 
 // ─────────────────────────────────────────
+// BANNERS
+// ─────────────────────────────────────────
+
+router.get('/sb/banners', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('banner').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('Supabase banners error', err);
+    res.status(500).json({ error: 'Failed to fetch banners' });
+  }
+});
+
+router.post('/sb/banners', async (req, res) => {
+  try {
+    const { image_url } = req.body;
+    if (!image_url) return res.status(400).json({ error: 'image_url is required' });
+    const { data, error } = await supabase.from('banner').insert([{ image_url }]).select().single();
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('Supabase create banner error', err);
+    res.status(500).json({ error: 'Failed to create banner' });
+  }
+});
+
+router.delete('/sb/banners/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { error } = await supabase.from('banner').delete().match({ id });
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Supabase delete banner error', err);
+    res.status(500).json({ error: 'Failed to delete banner' });
+  }
+});
+
+router.get('/banners', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('banner').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('Supabase banners error', err);
+    res.status(500).json({ error: 'Failed to fetch banners' });
+  }
+});
+
+router.post('/banners', async (req, res) => {
+  try {
+    const { image_url } = req.body;
+    if (!image_url) return res.status(400).json({ error: 'image_url is required' });
+    const { data, error } = await supabase.from('banner').insert([{ image_url }]).select().single();
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('Supabase create banner error', err);
+    res.status(500).json({ error: 'Failed to create banner' });
+  }
+});
+
+router.delete('/banners/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { error } = await supabase.from('banner').delete().match({ id });
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Supabase delete banner error', err);
+    res.status(500).json({ error: 'Failed to delete banner' });
+  }
+});
+
+// ─────────────────────────────────────────
 // PRODUCTS
 // ─────────────────────────────────────────
 
